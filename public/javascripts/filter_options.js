@@ -5,7 +5,7 @@ jQuery(document).ready(function($){
   $('#filterKey').change(function(){
     var key = $(this).val();
     var path = $('#filter').attr("action")+'/key?key='+ key;
-    console.log(path);
+    //console.log(path);
     $.ajax({
       type:'GET',
       url:path,
@@ -17,7 +17,7 @@ jQuery(document).ready(function($){
         $('#filterVal').empty().append('<option value="" selected disabled>Value</option>');
 
         for (var opt in data) {
-          console.log(opt);
+          //console.log(opt);
           $('#filterVal').append('<option value=' + opt + '>' + opt + '</option>');
         }
       }

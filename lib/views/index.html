@@ -15,27 +15,9 @@
 
 
 {% block content %}
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <div style="display: inline-block;">
-      <h4 style="font-weight: bold;">Databases</h4>
-    </div>
-    {% if !settings.read_only %}
-    <form class="form-inline" method="POST" style="float:right;">
-      <div class="input-group">
-        <input class="form-control" type="text" id="database" name="database" placeholder="Database Name" title="Database Name">
-        <span class="input-group-btn">
-      <button type="submit" class="btn btn-primary pull-right">
-        <span class="glyphicon glyphicon-plus"></span>
-        Create Database
-      </button>
-        </span>
-      </div>
-    </form>
-    {% endif %}
-    </div>
-  <div class="panel-body no-padding">
-<table class="table table-bordered table-striped table-condensed no-margin">
+
+<h2>Databases</h2>
+<table class="table table-bordered table-striped table-condensed">
   {% for db in databases %}
   <tr>
     <td class="col-md-2">
@@ -58,8 +40,7 @@
   </tr>
   {% endfor %}
 </table>
-</div>
-  </div>
+
 {% if !settings.read_only %}
 <div id="confirm-deletion" class="modal fade" role="dialog" aria-labelledby="confirmDeletionLabel">
   <div class="modal-dialog" role="document">
@@ -88,7 +69,7 @@
   </div>
 </div>
 
-<!--h2>Create Database</h2>
+<h2>Create Database</h2>
 <form class="well form-inline" method="POST">
     <div class="form-group">
       <input class="input-medium" type="text" id="database" name="database" placeholder="Database Name" title="Database Name">
@@ -97,7 +78,7 @@
       <span class="glyphicon glyphicon-plus"></span>
       Create Database
     </button>
-</form-->
+</form>
 
 <script>
 'use strict';
@@ -144,10 +125,8 @@ $(document).ready(function() {
 </p>
 
 {% else %}
-<div class="panel panel-default stats">
-  <div class="panel-heading">
-    <h4 style="font-weight: bold;">Server Status</h4>
-  </div>
+
+<h2>Server Status</h2>
 <table class="table table-bordered table-striped">
   <tr>
     <td class="span2"><strong>Hostname</strong></td>
@@ -191,7 +170,7 @@ $(document).ready(function() {
     <td><strong>Disk Flushes</strong></td>
     <td>{{ info.backgroundFlushing.flushes }}</td>
     <td><strong>Last Flush</strong></td>
-    <td>{{ info.backgroundFlushing ? info.backgroundFlushing.last_finished|date('r') : '' }}</td>
+    <td>{{ info.backgroundFlushing.last_finished|date('r') }}</td>
   </tr>
   <tr>
     <td><strong>Time Spent Flushing</strong></td>
@@ -213,7 +192,7 @@ $(document).ready(function() {
     <td>{{ info.opcounters.delete}}</td>
   </tr>
 </table>
-</div>
+
 {% endif %}
 
 {#

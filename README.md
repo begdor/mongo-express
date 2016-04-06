@@ -28,11 +28,11 @@ Features
 Screenshots
 -----------
 
-Home Page | Collection View | Database View | Editing A Document
---- | --- | --- | ---
-<img src="http://i.imgur.com/XiYhblA.png" title="Viewing Databases"> | <img src="https://imgur.com/UmGSr3x.png" title="Viewing collection of documents" /> | <img src="http://i.imgur.com/XWcIgY1.png" title="Viewing databases" /> | <img src="https://imgur.com/lL38abn.png" title="Editing a document" />
+Collection View | Editing A Document
+--- | ---
+<img src="https://imgur.com/UmGSr3x.png" title="Viewing collection of documents" /> | <img src="https://imgur.com/lL38abn.png" title="Editing a document" />
 
-These screenshots are from version 0.30.40
+These screenshots are from version 0.29.5.
 View album for more screenshots: (server status, database views etc..)
 [https://imgur.com/a/9vHsF](https://imgur.com/a/9vHsF)
 
@@ -88,22 +88,15 @@ Usage (Express 4 middleware)
 Usage (Docker)
 --------------
 
-Make sure you have a running [MongoDB container](https://hub.docker.com/_/mongo/) and specify it's name in the `--link` argument.
+**To run in a Docker container:**
 
-**Use the docker hub image:**
+First, build an image from the project directory:
 
-```console
-$ docker run -it --rm -p 8081:8081 --link YOUR_MONGODB_CONTAINER:mongo knickers/mongo-express
-```
+    docker build -t mongo-express .
 
-**Build from source:**
+Then run the image. Make sure you have a running [MongoDB container](https://registry.hub.docker.com/_/mongo/) and specify it's name in the `--link` argument.
 
-Build an image from the project directory, then run the image.
-
-```console
-$ docker build -t mongo-express .
-$ docker run -it --rm -p 8081:8081 --link YOUR_MONGODB_CONTAINER:mongo mongo-express
-```
+    docker run -it --rm -p 8081:8081 --link YOUR_MONGODB_CONTAINER:mongo mongo-express
 
 You can use the following [environment variables](https://docs.docker.com/reference/run/#env-environment-variables) to modify the container's configuration:
 

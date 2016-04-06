@@ -1,29 +1,50 @@
 {
-  "author": "https://github.com/mongo-express",
-  "name": "mongo-express",
-  "description": "Web-based admin interface for MongoDB",
-  "keywords": [
-    "admin",
-    "administration",
-    "collection",
-    "database",
-    "GUI",
-    "interface",
-    "manage",
-    "manage-mongo",
-    "mongo",
-    "mongodb",
-    "phpmyadmin",
-    "UI",
-    "web-based"
+  "_args": [
+    [
+      "mongo-express",
+      "/Users/likun/shadowBid/dashboard"
+    ]
   ],
-  "version": "0.30.43",
+  "_from": "mongo-express@latest",
+  "_id": "mongo-express@0.30.40",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/mongo-express",
+  "_nodeVersion": "5.9.1",
+  "_npmOperationalInternal": {
+    "host": "packages-16-east.internal.npmjs.com",
+    "tmp": "tmp/mongo-express-0.30.40.tgz_1459197706153_0.40905326209031045"
+  },
+  "_npmUser": {
+    "email": "wulf@wulf.co.nz",
+    "name": "wulfsolter"
+  },
+  "_npmVersion": "3.8.3",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "mongo-express",
+    "raw": "mongo-express",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/mongo-express/-/mongo-express-0.30.40.tgz",
+  "_shasum": "84b279606ebd7ea5a7d6630f5f137ff0b860e147",
+  "_shrinkwrap": null,
+  "_spec": "mongo-express",
+  "_where": "/Users/likun/shadowBid/dashboard",
+  "author": {
+    "name": "https://github.com/mongo-express"
+  },
   "bin": {
     "mongo-express": "./app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/mongo-express/mongo-express.git"
+  "bugs": {
+    "url": "https://github.com/mongo-express/mongo-express/issues"
   },
   "dependencies": {
     "async": "^2.0.0-rc.2",
@@ -39,34 +60,75 @@
     "express-session": "1.13.0",
     "gridfs-stream": "^1.1.1",
     "method-override": "2.3.5",
-    "mongodb": "^2.1.14",
+    "mongodb": "^2.1.11",
     "morgan": "1.7.0",
     "serve-favicon": "2.3.0",
-    "snyk": "^1.13.2",
+    "snyk": "^1.13.1",
     "swig": "1.4.2",
     "underscore": "~1.8.0",
     "update-notifier": "^0.6.3"
   },
+  "description": "Web-based admin interface for MongoDB",
   "devDependencies": {
     "chai": "3.5.0",
     "mocha": "2.4.5",
     "pre-commit": "^1.1.2"
   },
+  "directories": {},
+  "dist": {
+    "shasum": "84b279606ebd7ea5a7d6630f5f137ff0b860e147",
+    "tarball": "http://registry.npmjs.org/mongo-express/-/mongo-express-0.30.40.tgz"
+  },
   "engines": {
     "node": ">=4.0.0",
     "npm": ">=3.0.0"
   },
+  "gitHead": "af56e40ae98aa15576cfbb97cabb60adef2365c1",
+  "homepage": "https://github.com/mongo-express/mongo-express#readme",
+  "keywords": [
+    "admin",
+    "administration",
+    "collection",
+    "database",
+    "GUI",
+    "interface",
+    "manage",
+    "manage-mongo",
+    "mongo",
+    "mongodb",
+    "phpmyadmin",
+    "UI",
+    "web-based"
+  ],
   "license": "MIT",
-  "scripts": {
-    "jshint": "jshint -c .jshintrc --exclude-path .jshintignore .",
-    "jscs": "jscs .",
-    "start": "node app",
-    "test": "snyk test && ./node_modules/mocha/bin/mocha"
-  },
+  "main": "./middleware",
+  "maintainers": [
+    {
+      "email": "zegg90@gmail.com",
+      "name": "andz"
+    },
+    {
+      "email": "wulf@wulf.co.nz",
+      "name": "wulfsolter"
+    }
+  ],
+  "name": "mongo-express",
+  "optionalDependencies": {},
   "pre-commit": [
     "jshint",
     "jscs",
     "test"
   ],
-  "main": "./middleware"
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mongo-express/mongo-express.git"
+  },
+  "scripts": {
+    "jscs": "jscs .",
+    "jshint": "jshint -c .jshintrc --exclude-path .jshintignore .",
+    "start": "node app",
+    "test": "snyk test && ./node_modules/mocha/bin/mocha"
+  },
+  "version": "0.30.40"
 }
