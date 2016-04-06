@@ -18,7 +18,7 @@ if (process.env.VCAP_SERVICES) {
   }
 } else {
   mongo = {
-    db:       'db',
+    db:       'test',
     host:     'localhost',
     password: 'pass',
     port:     27017,
@@ -101,7 +101,7 @@ module.exports = {
 
   options: {
     //documentsPerPage: how many documents you want to see at once in collection view
-    documentsPerPage: 10,
+    documentsPerPage: 20,
 
     //editorTheme: Name of the theme you want to use for displaying documents
     //See http://codemirror.net/demo/theme.html for all examples
@@ -124,7 +124,7 @@ module.exports = {
     subprocessTimeout: 300,
 
     //readOnly: if readOnly is true, components of writing are not visible.
-    readOnly: false,
+    readOnly: true,
 
     //collapsibleJSON: if set to true, jsons will be displayed collapsible
     collapsibleJSON: true,

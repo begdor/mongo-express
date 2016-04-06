@@ -6,6 +6,7 @@
 {% block head %}
 <link href="{{ baseHref }}stylesheets/codemirror.css" rel="stylesheet">
 <script type="text/javascript" src="{{ baseHref }}javascripts/codemirror-compressed.js"></script>
+<script type="text/javascript" src="{{ baseHref }}javascripts/filter_options.js"></script>
 <script type="text/javascript">
 'use strict';
 function getParameterByName(name) { name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]"); var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(location.search); return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " ")); }
@@ -14,6 +15,7 @@ jQuery(document).ready(function($) {
   if (document.location.href.indexOf('query=') >= 0 && getParameterByname('query')!='') {
     $('#tabs a[href="#advanced"]').tab('show');
   }
+
 });
 </script>
 
@@ -139,6 +141,38 @@ jQuery(document).ready(function($) {
   </div>
   <br/>
 
+
+<!-- shadowbid: add filters of bid status and creators-->
+<div class = 'tab-content'>
+  <form id= 'filter' class="well" method="get" action="{{ baseHref }}db/{{ dbName }}/{{ collectionName }}">
+    <div class="row">
+      <input type='hidden' name = 'type' value='S'/>
+      <div class="form-group col-sm-6 col-md-5">
+        <select id='filterKey' name="key" class="form-control">
+          <option value="" {% if key == '' %}selected {% endif %} disabled>Key</option>
+          {% for column in columns%}
+          <option value="{{ column }}" {% if key == column %}selected {% endif %}>{{ column }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-sm-6 col-md-5">
+        <select id='filterVal' name="value" class="form-control">
+          <option value="" {% if value == '' %}selected {% endif %} disabled>Value</option>
+          {% for currentVal in currentValues %}
+          <option value="{{ currentVal }}" {% if value == currentVal %}selected {% endif %}>{{ currentVal }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-sm-6 col-md-2">
+        <button type="submit" class="btn btn-primary btn-block">
+          <span class="glyphicon glyphicon-search"></span>
+          Filter
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
 <!-- Add Document Modal -->
   <div class="modal fade" id="addDocument" role="dialog" tabindex="-1">
   <div class="modal-dialog" role="document">
@@ -261,7 +295,13 @@ renderjson.set_show_to_level({{ collapsibleJSONDefaultUnfold }});
                 </button>
                 </form>
               {% endif %}
+              {% if column === 'amazonUrl'%}
+                <a target="_blank" href = "{{ document[column] | stringDocIDs | safe }}">
+              {% endif %}
             {{ document[column] | stringDocIDs | to_display | safe }}
+              {% if column === 'amazonUrl'%}
+                </a>
+              {% endif %}
             </div></td>
           {% endfor %}
         </tr>
@@ -329,7 +369,15 @@ renderjson.set_show_to_level({{ collapsibleJSONDefaultUnfold }});
     <div class="col-sm-6 {% if !settings.read_only %}col-lg-3{% endif %}">
       <div class="well">
       <a href="{{ baseHref }}db/{{ dbName }}/export/{{ collectionName }}" class="btn btn-warning btn-block">
-        <span class="glyphicon glyphicon-floppy-save"></span><br>Export Standard
+        <span class="glyphicon glyphicon-floppy-save"></span><br>Export Standard JSON
+      </a>
+      </div>
+    </div>
+
+    <div class="col-sm-6 {% if !settings.read_only %}col-lg-3{% endif %}">
+      <div class="well">
+      <a href="{{ baseHref }}db/{{ dbName }}/exportCSV/{{ collectionName }}" class="btn btn-warning btn-block">
+        <span class="glyphicon glyphicon-floppy-save"></span><br>Export CSV
       </a>
       </div>
     </div>
