@@ -157,10 +157,7 @@ jQuery(document).ready(function($) {
       </div>
       <div class="form-group col-sm-6 col-md-5">
         <select id='filterVal' name="value" class="form-control">
-          <option value="" {% if value == '' %}selected {% endif %} disabled>Value</option>
-          {% for currentVal in currentValues %}
-          <option value="{{ currentVal }}" {% if value == currentVal %}selected {% endif %}>{{ currentVal }}</option>
-          {% endfor %}
+          <option value="{{ value }}" selected {% if value == '' %} disabled >Value</option> {% endif %} >{{value}}</option>
         </select>
       </div>
       <div class="form-group col-sm-6 col-md-2">
