@@ -261,14 +261,58 @@ renderjson.set_show_to_level({{ collapsibleJSONDefaultUnfold }});
     <table id="summary-executed" class="table table-striped tableHeaderFooterBars">
       <th>Fields</th>
       <th>Value</th>
-      {% for property in Object.keys(sumData.executed) %}
       <tr>
-        <td>{{ property }}
-        </td>
-        <td>{{ sumData.executed[property] }}
-        </td>
+        <td>Total</td>
+        <td>{{ sumData.executed['total'] }}</td>
       </tr>
-      {% endfor %}
+      <tr>
+        <td>% of Total Bids</td>
+        <td>{{ exePercent }}%</td>
+      </tr>
+      <tr>
+        <td>Average % Saved</td>
+        <td>{{ sumData.executed['avgSave'] }}%</td>
+      </tr>
+      <tr>
+        <td>Highest % Saved</td>
+        <td>{{ sumData.executed['highestSave'] }}%</td>
+      </tr>
+      <tr>
+        <td>Max Executed Price</td>
+        <td>${{ sumData.executed['maxPrice'] }}</td>
+      </tr>
+      <tr>
+        <td>Min Executed Price</td>
+        <td>${{ sumData.executed['minPrice'] }}</td>
+      </tr>
+      <tr>
+        <td>Median Executed Price</td>
+        <td>${{ sumData.executed['medPrice'] }}</td>
+      </tr>
+      <tr>
+        <td>Average Executed Price</td>
+        <td>${{ sumData.executed['avgPrice'] }}</td>
+      </tr>
+      <tr>
+        <td>Average Bid Amount</td>
+        <td>${{ sumData.executed['avgAmt'] }}</td>
+      </tr>
+      <tr>
+        <td>Median Bid Amount</td>
+        <td>${{ sumData.executed['medAmt'] }}</td>
+      </tr>
+      <tr>
+        <td>Highest Amount Saved</td>
+        <td>${{ sumData.executed['highestAmtSave'] }}</td>
+      </tr>
+      <tr>
+        <td>Average Amount Saved</td>
+        <td>${{ sumData.executed['avgAmtSave'] }}</td>
+      </tr>
+      <tr>
+        <td>Median Amount Saved</td>
+        <td>${{ sumData.executed['medAmtSave'] }}</td>
+      </tr>
     </table>
   </div>
   <div class="form-group col-sm-6 col-md-6">
@@ -276,14 +320,46 @@ renderjson.set_show_to_level({{ collapsibleJSONDefaultUnfold }});
     <table id="summary-open" class="table table-striped tableHeaderFooterBars">
       <th>Fields</th>
       <th>Value</th>
-      {% for property in Object.keys(sumData.open) %}
       <tr>
-        <td>{{ property }}
-        </td>
-        <td>{{ sumData.open[property] }}
-        </td>
+        <td>Total</td>
+        <td>{{ sumData.open['total'] }}</td>
       </tr>
-      {% endfor %}
+      <tr>
+        <td>% of Total Bids</td>
+        <td>{{ openPercent }}%</td>
+      </tr>
+      <tr>
+        <td>Average % Discount Requested</td>
+        <td>{{ sumData.open['avgDisReq'] }}%</td>
+      </tr>
+      <tr>
+        <td>Median Bid Discount</td>
+        <td>{{ sumData.open['medDisReq'] }}%</td>
+      </tr>
+      <tr>
+        <td>Max Bid Discount</td>
+        <td>{{ sumData.open['maxDisReq'] }}%</td>
+      </tr>
+      <tr>
+        <td>Min Bid Discount</td>
+        <td>{{ sumData.open['minDisReq'] }}%</td>
+      </tr>
+      <tr>
+        <td>Average Bid Amount</td>
+        <td>${{ sumData.open['avgBidAmt'] }}</td>
+      </tr>
+      <tr>
+        <td>Median Bid Amount</td>
+        <td>${{ sumData.open['medBidAmt'] }}</td>
+      </tr>
+      <tr>
+        <td>Max Bid Amount</td>
+        <td>${{ sumData.open['maxBidAmt'] }}</td>
+      </tr>
+      <tr>
+        <td>Min Bid Amount</td>
+        <td>${{ sumData.open['minBidAmt'] }}</td>
+      </tr>
     </table>
   </div>
 </div>
