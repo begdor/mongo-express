@@ -18,13 +18,13 @@ if (process.env.VCAP_SERVICES) {
   }
 } else {
   mongo = {
-    db:       'heroku_app37019435',
-    host:     'ds031962.mlab.com',
-    password: 'iamcaviar',
-    port:     31962,
+    db:       'db',
+    host:     'localhost',
+    password: 'pass',
+    port:     27017,
     ssl:      false,
-    url:      'mongodb://ds031962.mlab.com:31962/heroku_app37019435',
-    username: 'begdor',
+    url:      'mongodb://localhost:27017/db',
+    username: 'admin'
   };
 }
 
