@@ -99,7 +99,7 @@ jQuery(document).ready(function($) {
           <input style="width:100%;" class="input-medium form-control" type="text" id="key" name="key" placeholder="Key" title="Key" value="{{ key }}">
         </div>
         <div class="form-group col-sm-6 col-md-4">
-          <input style="width:100%;" class="input-medium form-control" type="text" id="value" name="value" placeholder="Value" title="Value" value="{{ value }}">
+          <input style="width:100%;" class="input-medium form-control" type="text" id="value" name="value" placeholder="Value" title="Value" value={% if type == 'O' %}"{{ value.toString() }}"{% else %}"{{ value }}"{% endif %}>
         </div>
         <div class="form-group col-sm-6 col-md-2">
           <select name="type" class="form-control">
@@ -145,8 +145,7 @@ jQuery(document).ready(function($) {
 <div class = 'tab-content'>
   <form id= 'filter' class="well" method="get" action="{{ baseHref }}db/{{ dbName }}/{{ collectionName }}">
     <div class="row">
-      <input id='filterType' type='hidden' name = 'type' value='S'/>
-      <div class="form-group col-sm-6 col-md-5">
+      <div class="form-group col-sm-6 col-md-4">
         <select id='filterKey' name="key" class="form-control">
           <option value="" {% if key == '' %}selected {% endif %} disabled>Key</option>
           {% for column in columns %}
@@ -154,9 +153,18 @@ jQuery(document).ready(function($) {
           {% endfor %}
         </select>
       </div>
-      <div class="form-group col-sm-6 col-md-5">
+      <div class="form-group col-sm-6 col-md-4">
         <select id='filterVal' name="value" class="form-control">
-          <option value="{{ value }}" selected {% if value == '' %} disabled >Value</option> {% endif %} >{{value}}</option>
+          <option value="{{ value }}" selected {% if value == '' %} disabled >Value</option> {% endif %} >{% if type == 'O' %}{{ value.toString() }}{% else %}{{ value }}{% endif %}</option>
+        </select>
+      </div>
+      <div class="form-group col-sm-6 col-md-2">
+        <select name="type" class="form-control">
+          <option value="S" {% if type == 'S' %}selected {% endif %}>String</option>
+          <option value="R" {% if type == 'R' %}selected {% endif %}>Regex</option>
+          <option value="J" {% if type == 'J' %}selected {% endif %}>JSON, bool</option>
+          <option value="N" {% if type == 'N' %}selected {% endif %}>Number</option>
+          <option value="O" {% if type == 'O' %}selected {% endif %}>ObjectID</option>
         </select>
       </div>
       <div class="form-group col-sm-6 col-md-2">
@@ -319,6 +327,10 @@ renderjson.set_show_to_level({{ collapsibleJSONDefaultUnfold }});
       <tr>
         <td>Median Amount Saved</td>
         <td>${{ sumData.executed['medAmtSave'] }}</td>
+      </tr>
+      <tr>
+        <td>Average Days To Execute</td>
+        <td>{{ sumData.executed['avgDTE'] }} days</td>
       </tr>
     </table>
   </div>
