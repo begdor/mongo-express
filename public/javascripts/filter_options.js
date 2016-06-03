@@ -15,7 +15,7 @@ jQuery(document).ready(function($){
       success: function (data) {
         $('#filterVal').empty().append('<option value="" selected disabled>Value</option>');
         for (var opt in data) {
-          $('#filterVal').append('<option value=' + opt + '>' + opt + '</option>');
+          $('#filterVal').append("<option value='" + opt + "'>" + opt + "</option>");
         }
       }
     })

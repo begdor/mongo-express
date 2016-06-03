@@ -99,15 +99,20 @@ jQuery(document).ready(function($) {
           <input style="width:100%;" class="input-medium form-control" type="text" id="key" name="key" placeholder="Key" title="Key" value="{{ key }}">
         </div>
         <div class="form-group col-sm-6 col-md-4">
-          <input style="width:100%;" class="input-medium form-control" type="text" id="value" name="value" placeholder="Value" title="Value" value={% if type == 'O' %}"{{ value.toString() }}"{% else %}"{{ value }}"{% endif %}>
+          <input style="width:100%;" class="input-medium form-control" type="text" id="value" name="value" placeholder="Value" title="Value" value=
+          {% if type == 'O' %}
+            "{{ value.toString() }}"
+          {% else %}
+            "{{ value }}"{% endif %}>
         </div>
         <div class="form-group col-sm-6 col-md-2">
           <select name="type" class="form-control">
             <option value="S" {% if type == 'S' %}selected {% endif %}>String</option>
+            <option value="O" {% if type == 'O' %}selected {% endif %}>ObjectID</option>
+            <option value="D" {% if type == 'D' %}selected {% endif %}>Date</option>
             <option value="R" {% if type == 'R' %}selected {% endif %}>Regex</option>
             <option value="J" {% if type == 'J' %}selected {% endif %}>JSON, bool</option>
             <option value="N" {% if type == 'N' %}selected {% endif %}>Number</option>
-            <option value="O" {% if type == 'O' %}selected {% endif %}>ObjectID</option>
           </select>
         </div>
         <div class="form-group col-sm-6 col-md-2">
@@ -148,7 +153,7 @@ jQuery(document).ready(function($) {
       <div class="form-group col-sm-6 col-md-4">
         <select id='filterKey' name="key" class="form-control">
           <option value="" {% if key == '' %}selected {% endif %} disabled>Key</option>
-          {% for column in columns %}
+          {% for column in filterCol %}
           <option value="{{ column }}" {% if key == column %}selected {% endif %}>{{ column }}</option>
           {% endfor %}
         </select>
@@ -161,10 +166,11 @@ jQuery(document).ready(function($) {
       <div class="form-group col-sm-6 col-md-2">
         <select name="type" class="form-control">
           <option value="S" {% if type == 'S' %}selected {% endif %}>String</option>
+          <option value="O" {% if type == 'O' %}selected {% endif %}>ObjectID</option>
+          <option value="D" {% if type == 'D' %}selected {% endif %}>Date</option>
           <option value="R" {% if type == 'R' %}selected {% endif %}>Regex</option>
           <option value="J" {% if type == 'J' %}selected {% endif %}>JSON, bool</option>
           <option value="N" {% if type == 'N' %}selected {% endif %}>Number</option>
-          <option value="O" {% if type == 'O' %}selected {% endif %}>ObjectID</option>
         </select>
       </div>
       <div class="form-group col-sm-6 col-md-2">
