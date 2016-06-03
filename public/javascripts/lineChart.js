@@ -18,8 +18,9 @@
    *		End: the date that the latest bid is created
    *		Step: 24 hours
    */
+   /*
   var startTime = new Date(data[0].date);
-  var endTime = new Date(data[data.length-1].date);
+  var endTime = new Date(data[data.length-1].date);*/
   var timeStep = 86400000;
 
   var getDisplayAttr = function (field1, field2){
@@ -83,7 +84,38 @@
         unit = 'Amount $';
         title = title.concat('Median Bid Amount');
         break;
-
+      case 'maxDisReq':
+        unit = 'Percentage %';
+        title = title.concat('Max Discount Requested');
+        break;
+      case 'minDisReq':
+        unit = 'Percentage %';
+        title = title.concat('Min Discount Requested');
+        break;
+      case 'maxBidAmt':
+        unit = 'Amount $';
+        title = title.concat('Max Bid Amount');
+        break;
+      case 'minBidAmt':
+        unit = 'Amount $';
+        title = title.concat('Min Bid Amount');
+        break;
+      case 'highestSave':
+        unit = 'Percentage %';
+        title = title.concat('Highest Saved');
+        break;
+      case 'maxPrice':
+        unit = 'Price $';
+        title = title.concat('Max Price');
+        break;
+      case 'minPrice':
+        unit = 'Price $';
+        title = title.concat('Min Price');
+        break;
+      case 'medPrice':
+        unit = 'Price $';
+        title = title.concat('Median Price');
+        break;
     }
     return {'unit':unit, 'title':title};
   };
@@ -110,8 +142,9 @@
 
     // unify the axis if the two line are the same field
     if (attrLeft.unit == attrRight.unit) {
-      let max = d3.max(rawData);
-      if (max[field1[0]][field2[0]] > max[field1[1]][field2[1]]) y2 = y1;
+      let f1 = d3.max(rawData, function(d) { return d[field1[0]][field2[0]]; });
+      let f2 = d3.max(rawData, function(d) { return d[field1[1]][field2[1]]; });
+      if (f1 > f2) y2 = y1;
       else y1 = y2;
     }
 
@@ -217,7 +250,7 @@
 
 		// hide it by default
 	  hoverLine.classed("hide", true);
-    $('#'+container).append("<button class='zoomBTN' style='display:none'>Zoom Out</button>");
+    $('#'+container).append("<button class='zoomBTN' style='display:none'>Expand</button>");
 
     //bind select-time-range feature to the chart
     if(!container.includes('zoom')){
@@ -242,12 +275,12 @@
         var hoverLineYOffset = m[0]+$("#" + container).offset().top;
         var mouseX = event.pageX - hoverLineXOffset;
         var mouseY = event.pageY - hoverLineYOffset;
-
     		if(mouseX >= 0 && mouseX <= w && mouseY >= 0 && mouseY <= h){
         	var p = d3.mouse(this);
           selectDate.update(mouseX, mouseY);
         }
       }
+      var st = rawData[0].date, et = rawData[rawData.length-1].date;
       function dragEnd() {
       	console.log("dragEnd",container);
         var hoverLineXOffset = m[3]+$("#" + container).offset().left;
@@ -263,7 +296,7 @@
             //console.log(finalAttributes.x2,'-',finalAttributes.x1);
         		// range selected
         		d3.event.sourceEvent.preventDefault();
-        		selectDate.focus(container);
+        		selectDate.focus(container,{startTime:st,endTime:et});
         	}
           else {
         		console.log("single point");
@@ -274,10 +307,11 @@
         }
       }
 
+
       var dragBehavior = d3.behavior.drag()
           .on("drag", dragMove)
           .on("dragstart", dragStart)
-          .on("dragend", dragEnd);
+          .on("dragend",dragEnd);
 
       svg.call(dragBehavior);
     }
@@ -437,29 +471,7 @@
 				                   .attr("x", w)
 				                   .text(date.toDateString());
 	}
-  var graphSP = 'graphSP';
-  createGraph(graphSP,fieldSP['Status'],fieldSP['Field'],data);
-  createDateLabel(graphSP + '-transform');
-  createLegend(graphSP + '-transform',fieldSP['Status'],fieldSP['Field']);
-  displayValueLabelsForPositionX(graphSP + '-transform',w,fieldSP['Status'],fieldSP['Field'],data);
 
-  var graphSD = 'graphSD';
-  createGraph(graphSD,fieldSD['Status'],fieldSD['Field'],data);
-  createDateLabel(graphSD + '-transform');
-  createLegend(graphSD + '-transform',fieldSD['Status'],fieldSD['Field']);
-  displayValueLabelsForPositionX(graphSD + '-transform',w,fieldSD['Status'],fieldSD['Field'],data);
-
-  var graphTD = 'graphTD';
-  createGraph(graphTD,fieldTD['Status'],fieldTD['Field'],data);
-  createDateLabel(graphTD + '-transform');
-  createLegend(graphTD + '-transform',fieldTD['Status'],fieldTD['Field']);
-  displayValueLabelsForPositionX(graphTD + '-transform',w,fieldTD['Status'],fieldTD['Field'],data);
-
-  var graphTT = 'graphTT';
-  createGraph(graphTT,fieldTT['Status'],fieldTT['Field'],data);
-  createDateLabel(graphTT + '-transform');
-  createLegend(graphTT + '-transform',fieldTT['Status'],fieldTT['Field']);
-  displayValueLabelsForPositionX(graphTT + '-transform',w,fieldTT['Status'],fieldTT['Field'],data);
   /**
 	 * Called when a user mouses over the graph
    */
@@ -497,30 +509,6 @@
 	}
 
 
-  $('#graphSP').mousemove(function(event) {
-    var hoverLineXOffset = m[3]+$('#graphSP').offset().left;
-    var hoverLineYOffset = m[0]+$('#graphSP').offset().top;
-    var hoverLine = [hoverLineXOffset,hoverLineYOffset];
-		handleMouseOverGraph('graphSP',event,fieldSP['Status'],fieldSP['Field'],hoverLine,data);
-	})
-  $('#graphSD').mousemove(function(event) {
-    var hoverLineXOffset = m[3]+$('#graphSD').offset().left;
-    var hoverLineYOffset = m[0]+$('#graphSD').offset().top;
-    var hoverLine = [hoverLineXOffset,hoverLineYOffset];
-		handleMouseOverGraph('graphSD',event,fieldSD['Status'],fieldSD['Field'],hoverLine,data);
-	})
-  $('#graphTD').mousemove(function(event) {
-    var hoverLineXOffset = m[3]+$('#graphTD').offset().left;
-    var hoverLineYOffset = m[0]+$('#graphTD').offset().top;
-    var hoverLine = [hoverLineXOffset,hoverLineYOffset];
-			handleMouseOverGraph('graphTD',event,fieldTD['Status'],fieldTD['Field'],hoverLine,data);
-	})
-  $('#graphTT').mousemove(function(event) {
-    var hoverLineXOffset = m[3]+$('#graphTT').offset().left;
-    var hoverLineYOffset = m[0]+$('#graphTT').offset().top;
-    var hoverLine = [hoverLineXOffset,hoverLineYOffset];
-		handleMouseOverGraph('graphTT',event,fieldTT['Status'],fieldTT['Field'],hoverLine,data);
-	})
 
   //TODO: adding a drag event to drag select a time range
   //influence by https://gist.github.com/paradite/71869a0f30592ade5246
@@ -602,31 +590,14 @@
   		this.currentY = newY;
   		this.element.attr(this.getNewAttributes());
     },
-    focus : function(container){
+    focus : function(container,timeData){
       this.element
             .style("stroke", "#DE695B")
             .style("stroke-width", "2.5")
             .style("opacity", "0.4");
+      var startTime = new Date(timeData.startTime);
+      var endTime = new Date(timeData.endTime);
       var x = d3.time.scale().domain([startTime, endTime]).range([0, w]);
-      //var svg = d3.select("#graphTT-transform").transition();
-      //var y1 = d3.scale.linear().domain([0, d3.max(data, function(d) { return d[fieldTT['Status'][0]][fieldTT['Field'][0]]; })]).range([h, 0]);
-/*
-      var line1 = d3.svg.line()
-        // assign the X function to plot our line as we wish
-        .x(function(d,i) {
-          // return the X coordinate where we want to plot this datapoint
-          //console.log('i:',i);
-          return x(startTime.getTime() + (timeStep*i));
-        })
-        .y(function(d) {
-          // return the Y coordinate where we want to plot this datapoint
-          //console.log(d[fieldTT['Status'][0]][fieldTT['Field'][0]]);
-          return y1(d[fieldTT['Status'][0]][fieldTT['Field'][0]]); // use the 1st index of data (for example, get 20 from [20,13])
-        });
-
-*/
-      //var xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(1);
-      //var yAxisLeft = d3.svg.axis().scale(y1).ticks(6).orient("left");
 
       $("#" + container).children(".zoomBTN").show();
 
@@ -645,58 +616,124 @@
 
 
 
-  $(".zoomBTN").click(function(){
 
-    //console.log(selectDate.getCurrentAttributes().x1,selectDate.getCurrentAttributes().x2);
-    var x = d3.time.scale().domain([startTime, endTime]).range([0, w]);
-    var hoverLineXOffset = m[3];
-    var startPos = selectDate.getCurrentAttributes().x1 - hoverLineXOffset;
-    var endPos = selectDate.getCurrentAttributes().x2 - hoverLineXOffset;
+      jQuery(document).ready(function($){
+        var path = window.location.href;
+        path = path.substring(0,path.indexOf('line-chart')) + 'getSums';
+        $.ajax({
+          type:'GET',
+          url:path,
+          error: function(err){
+            var msg = 'Status: ' + err.status + ': ' + err.responseText;
+            alert(msg);
+          },
+          success: function (data) {
+            var graphSP = 'graphSP';
+            createGraph(graphSP,fieldSP['Status'],fieldSP['Field'],data);
+            createDateLabel(graphSP + '-transform');
+            createLegend(graphSP + '-transform',fieldSP['Status'],fieldSP['Field']);
+            displayValueLabelsForPositionX(graphSP + '-transform',w,fieldSP['Status'],fieldSP['Field'],data);
 
-    //TODO: bind each field correctly to the legend
-    var d = data;
-    // get the date on x-axis for the current location
-    var start = x.invert(startPos);
-    var end = x.invert(endPos);
-    // Calculate the value from this date by determining the 'index'
-    // within the data array that applies to this value
-    var indexL = (start.getTime() - startTime) / timeStep;
-    var indexR = (end.getTime() - endTime) / timeStep;
-    if(indexL >= d.length) {
-      indexL = d.length-1;
-    }
-    if(indexR >= d.length) {
-      indexR = d.length-1;
-    }
-    // The date we're given is interpolated so we have to round off to get the nearest
-    // index in the data array for the xValue we're given.
-    // Once we have the index, we then retrieve the data from the d[] array
-    indexL = Math.round(indexL);
-    indexR = Math.round(indexR);
+            var graphSD = 'graphSD';
+            createGraph(graphSD,fieldSD['Status'],fieldSD['Field'],data);
+            createDateLabel(graphSD + '-transform');
+            createLegend(graphSD + '-transform',fieldSD['Status'],fieldSD['Field']);
+            displayValueLabelsForPositionX(graphSD + '-transform',w,fieldSD['Status'],fieldSD['Field'],data);
 
-    $(this).parent().next('.dGraph').remove();
-    var parentID = $(this).parent().attr('id');
-    $("<div id='" + parentID + "-zoom" + "' class='dGraph'></div>").insertAfter("#" + parentID);
-    //var status = $(this).parent().children("input[name~='status']").val();
-    var status = $("#" + parentID + " :input[name='status']").val().split(',');
-    var field = $("#" + parentID + " :input[name='field']").val().split(',');
-    var graphZoom = parentID + '-zoom';
-    console.log('before')
-    createGraph(graphZoom,status,field,data.slice(indexL,indexR));
-    createDateLabel(graphZoom + '-transform');
-    createLegend(graphZoom + '-transform',status,field);
-    displayValueLabelsForPositionX(graphZoom + '-transform',w,status,field,data.slice(indexL,indexR));
+            var graphTD = 'graphTD';
+            createGraph(graphTD,fieldTD['Status'],fieldTD['Field'],data);
+            createDateLabel(graphTD + '-transform');
+            createLegend(graphTD + '-transform',fieldTD['Status'],fieldTD['Field']);
+            displayValueLabelsForPositionX(graphTD + '-transform',w,fieldTD['Status'],fieldTD['Field'],data);
 
-    $('#'+graphZoom).mousemove(function(event) {
-      var hoverLineXOffset = m[3]+$('#'+graphZoom).offset().left;
-      var hoverLineYOffset = m[0]+$('#'+graphZoom).offset().top;
-      var hoverLine = [hoverLineXOffset,hoverLineYOffset];
-      handleMouseOverGraph(graphZoom,event,status,field,hoverLine,data.slice(indexL,indexR));
-    });
-    $('#' + graphZoom).append("<button class='delBTN'>Delete</button>")
-    $('#' + graphZoom).on('click','.delBTN',function(event){
-      $(this).parent().remove();
-    });
-    selectDate.remove();
-    $("#" + parentID).children(".zoomBTN").hide();
-  });
+            var graphTT = 'graphTT';
+            createGraph(graphTT,fieldTT['Status'],fieldTT['Field'],data);
+            createDateLabel(graphTT + '-transform');
+            createLegend(graphTT + '-transform',fieldTT['Status'],fieldTT['Field']);
+            displayValueLabelsForPositionX(graphTT + '-transform',w,fieldTT['Status'],fieldTT['Field'],data);
+
+          $('#graphSP').mousemove(function(event) {
+            var hoverLineXOffset = m[3]+$('#graphSP').offset().left;
+            var hoverLineYOffset = m[0]+$('#graphSP').offset().top;
+            var hoverLine = [hoverLineXOffset,hoverLineYOffset];
+        		handleMouseOverGraph('graphSP',event,fieldSP['Status'],fieldSP['Field'],hoverLine,data);
+        	})
+          $('#graphSD').mousemove(function(event) {
+            var hoverLineXOffset = m[3]+$('#graphSD').offset().left;
+            var hoverLineYOffset = m[0]+$('#graphSD').offset().top;
+            var hoverLine = [hoverLineXOffset,hoverLineYOffset];
+        		handleMouseOverGraph('graphSD',event,fieldSD['Status'],fieldSD['Field'],hoverLine,data);
+        	})
+          $('#graphTD').mousemove(function(event) {
+            var hoverLineXOffset = m[3]+$('#graphTD').offset().left;
+            var hoverLineYOffset = m[0]+$('#graphTD').offset().top;
+            var hoverLine = [hoverLineXOffset,hoverLineYOffset];
+        			handleMouseOverGraph('graphTD',event,fieldTD['Status'],fieldTD['Field'],hoverLine,data);
+        	})
+          $('#graphTT').mousemove(function(event) {
+            var hoverLineXOffset = m[3]+$('#graphTT').offset().left;
+            var hoverLineYOffset = m[0]+$('#graphTT').offset().top;
+            var hoverLine = [hoverLineXOffset,hoverLineYOffset];
+        		handleMouseOverGraph('graphTT',event,fieldTT['Status'],fieldTT['Field'],hoverLine,data);
+
+        	})
+          var startTime = new Date(data[0].date);
+          var endTime = new Date(data[data.length-1].date);
+          $(".zoomBTN").click(function(){
+            //console.log(selectDate.getCurrentAttributes().x1,selectDate.getCurrentAttributes().x2);
+            var x = d3.time.scale().domain([startTime, endTime]).range([0, w]);
+            var hoverLineXOffset = m[3];
+            var startPos = selectDate.getCurrentAttributes().x1 - hoverLineXOffset;
+            var endPos = selectDate.getCurrentAttributes().x2 - hoverLineXOffset;
+
+            //MARK: bind each field correctly to the legend
+            var d = data;
+            // get the date on x-axis for the current location
+            var start = x.invert(startPos);
+            var end = x.invert(endPos);
+            // Calculate the value from this date by determining the 'index'
+            // within the data array that applies to this value
+            var indexL = (start.getTime() - startTime) / timeStep;
+            var indexR = (end.getTime() - endTime) / timeStep;
+            if(indexL >= d.length) {
+              indexL = d.length-1;
+            }
+            if(indexR >= d.length) {
+              indexR = d.length-1;
+            }
+            // The date we're given is interpolated so we have to round off to get the nearest
+            // index in the data array for the xValue we're given.
+            // Once we have the index, we then retrieve the data from the d[] array
+            indexL = Math.round(indexL);
+            indexR = Math.round(indexR);
+
+            $(this).parent().next('.dGraph').remove();
+            var parentID = $(this).parent().attr('id');
+            $("<div id='" + parentID + "-zoom" + "' class='dGraph'></div>").insertAfter("#" + parentID);
+            //var status = $(this).parent().children("input[name~='status']").val();
+            var status = $("#" + parentID + " :input[name='status']").val().split(',');
+            var field = $("#" + parentID + " :input[name='field']").val().split(',');
+            var graphZoom = parentID + '-zoom';
+            console.log('before')
+            createGraph(graphZoom,status,field,data.slice(indexL,indexR));
+            createDateLabel(graphZoom + '-transform');
+            createLegend(graphZoom + '-transform',status,field);
+            displayValueLabelsForPositionX(graphZoom + '-transform',w,status,field,data.slice(indexL,indexR));
+
+            $('#'+graphZoom).mousemove(function(event) {
+              var hoverLineXOffset = m[3]+$('#'+graphZoom).offset().left;
+              var hoverLineYOffset = m[0]+$('#'+graphZoom).offset().top;
+              var hoverLine = [hoverLineXOffset,hoverLineYOffset];
+              handleMouseOverGraph(graphZoom,event,status,field,hoverLine,data.slice(indexL,indexR));
+            });
+            $('#' + graphZoom).append("<button class='delBTN'>Delete</button>")
+            $('#' + graphZoom).on('click','.delBTN',function(event){
+              $(this).parent().remove();
+            });
+            selectDate.remove();
+            $("#" + parentID).children(".zoomBTN").hide();
+          });
+
+          }
+        });
+      });
